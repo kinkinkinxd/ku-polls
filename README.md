@@ -1,6 +1,8 @@
-# ku-polls
-[Home](https://github.com/kinkinkinxd/ku-polls/wiki/Home)
+# Kasetsart Polls
 
-[Vision Statement](https://github.com/kinkinkinxd/ku-polls/wiki/Vision%20Statement)
+was application for conducting onlines polls and surveys.
 
-[Requirements](https://github.com/kinkinkinxd/ku-polls/wiki/Requirements)
+## Project Documents
+* [Home](https://github.com/kinkinkinxd/ku-polls/wiki/Home)
+* [Vision Statement](https://github.com/kinkinkinxd/ku-polls/wiki/Vision%20Statement)
+* [Requirements](https://github.com/kinkinkinxd/ku-polls/wiki/Requirements)
