@@ -7,3 +7,4 @@ was application for conducting onlines polls and surveys.
 * [Vision Statement](https://github.com/kinkinkinxd/ku-polls/wiki/Vision%20Statement)
 * [Requirements](https://github.com/kinkinkinxd/ku-polls/wiki/Requirements)
 * [Iteration 1 plan](https://github.com/kinkinkinxd/ku-polls/wiki/Iteration-1-Plan)
+* [Iteration 2 plan](https://github.com/kinkinkinxd/ku-polls/wiki/Iteration-2-plan)
