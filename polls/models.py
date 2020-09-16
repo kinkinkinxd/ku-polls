@@ -8,7 +8,12 @@ class Question(models.Model):
     pub_date = models.DateTimeField('date published')
     end_date = models.DateTimeField('ending date')
     
-
+    def is_published(self):
+        return timezone.now() >= self.pub_date
+    
+    def can_vote(self):
+        return self.end_date >= timezone.now() >= self.pub_date
+        
     def __str__(self):
         return self.question_text
 
