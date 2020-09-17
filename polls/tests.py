@@ -45,6 +45,23 @@ class QuestionModelTests(TestCase):
         future_question = Question(pub_date=time)
         self.assertIs(future_question.was_published_recently(), False)
 
+    def test_is_published(self):
+        """
+        is_published returns true if current date is on or after question’s publication date
+        """
+        time = timezone.now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
+        question = Question(pub_date=time)
+        self.assertIs(question.is_published(),True)
+
+
+    def test_can_vote(self):
+        """
+        can_vote returns true if voting is currently allowed for this question
+        """
+        time = timezone.now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
+        past_question = Question(pub_date=time)
+        self.assertIs(past_question.can_vote(),True)
+
 class QuestionIndexViewTests(TestCase):
     def test_no_questions(self):
         """
