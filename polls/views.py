@@ -3,7 +3,9 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from django.contrib import messages
 from .models import Question, Choice
+
 
 
 
@@ -52,11 +54,15 @@ def vote(request, question_id):
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
-        return render(request, 'polls/detail.html', {
-            'question': question,
-            'error_message': "You didn't select a choice.",
-        })
+        messages.error(request, "You didn't make a choice.")
+        return render(request, 'polls/detail.html', {'question': question,})
     else:
+        if not (question.can_vote()):
+            messages.warning(request,"This polls are not allowed.")
+            return HttpResponseRedirect(reverse("polls:index"))
         selected_choice.votes += 1
         selected_choice.save()
+        messages.success(request,"Your choice successfully recorded. Thank you.")
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+

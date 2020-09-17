@@ -1,4 +1,13 @@
+
 <h1>{{ question.question_text }}</h1>
+
+<b>{% if messages %}
+<ul class="messages">
+  {% for msg in messages %}
+    <class="{{msg.tags}}">{{ msg }}
+  {% endfor %}
+</ul>
+{% endif %}</b>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 <form action="{% url 'polls:vote' question.id %}" method="post">
@@ -8,4 +17,7 @@
     <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
 {% endfor %}
 <input type="submit" value="Vote">
+</form>
+<form action="{% url 'polls:index' %}">
+        <input type="submit" value="Back">
 </form>
