@@ -10,13 +10,12 @@
 <ul>
 
 {% for choice in question.choice_set.all %}
-    <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+    {{ choice.choice_text }}<p style="text-align:center;">{{ choice.votes }} vote{{ choice.votes|pluralize }}</p>  
 {% endfor %}
 </ul>
-<form action="{% url 'polls:detail' question.id %}">
-        <input type="submit" value="Vote again">
-  </form>
+<p>
+     <a href="{% url 'polls:detail' question.id%}"><button class="swd-button">Vote again</button></a>
+     <a href="{% url 'polls:index'%}"><button class="swd-button">Back</button></a>
+</p>
 
-<form action="{% url 'polls:index' %}">
-        <input type="submit" value="Back">
-</form>
+

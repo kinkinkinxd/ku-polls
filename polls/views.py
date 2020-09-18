@@ -18,7 +18,7 @@ class IndexView(generic.ListView):
         Return the last five published questions (not including those set to be
         published in the future).
         """
-        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')
     
  
 class DetailView(generic.DetailView):
@@ -30,14 +30,13 @@ class DetailView(generic.DetailView):
         """
         return Question.objects.filter(pub_date__lte=timezone.now())
 
-
 class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
 
 
 def index(request):
-    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    latest_question_list = Question.objects.order_by('-pub_date')
     context = {'latest_question_list': latest_question_list}
     return render(request, 'polls/index.html', context)
 

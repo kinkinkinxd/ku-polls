@@ -14,16 +14,12 @@
     {% for question in latest_question_list %}
         <li>{{ question.question_text }}</a></li>
         {% if question.can_vote %}
-        <form action="{% url 'polls:detail' question.id %}">
-        <input type="submit" value="Vote">
-        </form>
-        <form action="{% url 'polls:results' question.id %}">
-        <input type="submit" value="Results">
-        </form>
+        <p>
+        <a href="{% url 'polls:detail' question.id%}"><button class="swd-button">vote</button></a>
+        <a href="{% url 'polls:results' question.id%}"><button class="swd-button">Results</button></a>
+        </p>    
         {% else %}
-            <form action="{% url 'polls:results' question.id %}">
-            <input type="submit" value="Results">
-            </form>
+            <a href="{% url 'polls:results' question.id%}"><button class="swd-button">Results</button></a>
         <br>
         {%endif%}
     {% endfor %}
