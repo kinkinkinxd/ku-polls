@@ -1,6 +1,6 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
-<h1> KU-Polls</h1>
+<h1 style="color:green;"> KU-Polls</h1>
 <br>
 <b>{% if messages %}
 <ul class="messages">
@@ -12,16 +12,16 @@
 {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
-        <li>{{ question.question_text }}</a></li>
+        <li>{{ question.question_text }}</a>
         {% if question.can_vote %}
-        <p>
         <a href="{% url 'polls:detail' question.id%}"><button class="swd-button">vote</button></a>
         <a href="{% url 'polls:results' question.id%}"><button class="swd-button">Results</button></a>
-        </p>    
         {% else %}
             <a href="{% url 'polls:results' question.id%}"><button class="swd-button">Results</button></a>
-        <br>
         {%endif%}
+        </li>
+        <br>
+        <br>
     {% endfor %}
     </ul>
 {% else %}

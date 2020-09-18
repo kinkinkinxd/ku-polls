@@ -1,4 +1,5 @@
-
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
 <h1>{{ question.question_text }}</h1>
 <b>{% if messages %}
 <ul class="messages">
@@ -8,10 +9,15 @@
 </ul>
 {% endif %}</b>
 <ul>
-
+<ul>
+    <table width="35%">
 {% for choice in question.choice_set.all %}
-    {{ choice.choice_text }}<p style="text-align:center;">{{ choice.votes }} vote{{ choice.votes|pluralize }}</p>  
+        <tr>
+            <td>{{ choice.choice_text }}</td>
+            <td>{{ choice.votes }}</td>
+        </tr>
 {% endfor %}
+    </table>
 </ul>
 <p>
      <a href="{% url 'polls:detail' question.id%}"><button class="swd-button">Vote again</button></a>
