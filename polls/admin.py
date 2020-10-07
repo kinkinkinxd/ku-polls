@@ -1,19 +1,18 @@
+"""Admin function."""
 from django.contrib import admin
 from .models import Question, Choice
 
 
 class ChoiceInline(admin.TabularInline):
-    """
-    Create choice with admin page
-    """
+    """Create choice with admin page."""
+
     model = Choice
     extra = 3
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    """
-    Create question with admin page
-    """
+    """Create question with admin page."""
+
     fieldsets = [
         (None, {'fields': ['question_text']}),
         ('Date information', {'fields': ['pub_date', 'end_date'], 'classes':['collapse']}),
