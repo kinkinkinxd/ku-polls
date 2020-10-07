@@ -1,4 +1,5 @@
 # Kasetsart Polls
+[![Build Status](https://travis-ci.com/kinkinkinxd/ku-polls.svg?branch=master)](https://travis-ci.com/kinkinkinxd/ku-polls)
 
 was application for conducting onlines polls and surveys.
 

@@ -1,5 +1,5 @@
 import datetime
-
+import unittest
 from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
@@ -144,7 +144,7 @@ class QuestionIndexViewTests(TestCase):
         self.assertQuerysetEqual(
             response.context['latest_question_list'],
             ['<Question: Past question 2.>', '<Question: Past question 1.>']
-        )
+        ) 
 
 class QuestionDetailViewTests(TestCase):
     def test_future_question(self):
@@ -167,4 +167,5 @@ class QuestionDetailViewTests(TestCase):
         response = self.client.get(url)
         self.assertContains(response, past_question.question_text)
 
-
+if __name__ == "__main__":
+    unittest.main()
