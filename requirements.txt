@@ -1,1 +1,3 @@
 coverage
+django 
+environ
