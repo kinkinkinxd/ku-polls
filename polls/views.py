@@ -1,5 +1,5 @@
 """Views for polls."""
-
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
@@ -42,6 +42,7 @@ class ResultsView(generic.DetailView):
     template_name = 'polls/results.html'
 
 
+@login_required
 def vote(request, question_id):
     """Check vote and count vote."""
     question = get_object_or_404(Question, pk=question_id)
@@ -57,7 +58,7 @@ def vote(request, question_id):
         selected_choice.votes += 1
         selected_choice.save()
         messages.success(request, "Your choice successfully recorded.")
-        url = reverse('polls:results', args=(question.id, ))
+        url = reverse('polls:results', args=(question.id,))
         return HttpResponseRedirect(url)
 
 # def index(request):

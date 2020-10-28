@@ -1,30 +1,41 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+{% if user.is_authenticated %}
+    Welcome back, {{ user.username }}
+{% else %}
+    Please <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+{% endif %}
 <h1 style="color:green;"> KU-Polls</h1>
 <br>
 <b>{% if messages %}
-<ul class="messages">
-  {% for msg in messages %}
-    <li class="{{msg.tags}}">{{ msg }}</li>
-  {% endfor %}
-</ul>
+    <ul class="messages">
+        {% for msg in messages %}
+            <li class="{{ msg.tags }}">{{ msg }}</li>
+        {% endfor %}
+    </ul>
 {% endif %}</b>
+
 {% if latest_question_list %}
     <ul>
-    {% for question in latest_question_list %}
-        <li>{{ question.question_text }}</a>
-        {% if question.can_vote %}
-        <a href="{% url 'polls:detail' question.id%}"><button class="swd-button">Vote</button></a>
-        <a href="{% url 'polls:results' question.id%}"><button class="swd-button">Results</button></a>
-        {% else %}
-            <a href="{% url 'polls:results' question.id%}"><button class="swd-button">Results</button></a>
-        {%endif%}
-        </li>
-        <br>
-        <br>
-    {% endfor %}
+        {% for question in latest_question_list %}
+            <li>{{ question.question_text }}
+                {% if question.can_vote %}
+                    <a href="{% url 'polls:detail' question.id %}">
+                        <button class="swd-button">Vote</button>
+                    </a>
+                    <a href="{% url 'polls:results' question.id %}">
+                        <button class="swd-button">Results</button>
+                    </a>
+                {% else %}
+                    <a href="{% url 'polls:results' question.id %}">
+                        <button class="swd-button">Results</button>
+                    </a>
+                {% endif %}
+            </li>
+            <br>
+            <br>
+        {% endfor %}
     </ul>
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
-
