@@ -54,11 +54,10 @@ class Choice(models.Model):
 class Vote(models.Model):
     """Model class for Vote."""
 
-    vote_text = models.CharField(max_length=200)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         """Show text for vote."""
-        return self.vote_text
+        return None
