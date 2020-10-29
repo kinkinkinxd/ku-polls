@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
-from .models import Question, Choice
+from .models import Question, Choice, Vote
 
 
 class IndexView(generic.ListView):
@@ -54,22 +54,12 @@ def vote(request, question_id):
     else:
         if not (question.can_vote()):
             messages.warning(request, "This polls are not allowed.")
-            return HttpResponseRedirect(reverse("polls:index"))
-        selected_choice.votes += 1
-        selected_choice.save()
-        messages.success(request, "Your choice successfully recorded.")
+        elif Vote.objects.filter(user=request.user, question=question).exists():
+            previous_vote = Vote.objects.get(user=request.user, question=question)
+            previous_vote.choice = selected_choice
+            previous_vote.save()
+        else:
+            question.vote_set.create(choice=selected_choice, user=request.user)
+            messages.success(request, "Your choice successfully recorded.")
         url = reverse('polls:results', args=(question.id,))
         return HttpResponseRedirect(url)
-
-# def index(request):
-#     latest_question_list = Question.objects.order_by('-pub_date')
-#     context = {'latest_question_list': latest_question_list}
-#     return render(request, 'polls/index.html', context)
-
-# def detail(request, question_id):
-#     question = get_object_or_404(Question, pk=question_id)
-#     return render(request, 'polls/detail.html', {'question': question})
-
-# def results(request, question_id):
-#     question = get_object_or_404(Question, pk=question_id)
-#     return render(request, 'polls/results.html', {'question': question})

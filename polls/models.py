@@ -3,6 +3,7 @@
 import datetime
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 class Question(models.Model):
@@ -28,6 +29,7 @@ class Question(models.Model):
         """Check if the polls already published."""
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.pub_date <= now
+
     was_published_recently.admin_order_field = 'pub_date'
     was_published_recently.boolean = True
     was_published_recently.short_description = 'Published recently?'
@@ -38,8 +40,25 @@ class Choice(models.Model):
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
 
     def __str__(self):
         """Show text for choice."""
         return self.choice_text
+
+    @property
+    def votes(self):
+        """Count vote."""
+        return self.question.vote_set.filter(choice=self).count()
+
+
+class Vote(models.Model):
+    """Model class for Vote."""
+
+    vote_text = models.CharField(max_length=200)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        """Show text for vote."""
+        return self.vote_text
