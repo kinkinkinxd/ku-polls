@@ -1,5 +1,9 @@
 """Views for polls."""
+import logging.config
+
+from django.contrib.auth import user_logged_in, user_logged_out, user_login_failed
 from django.contrib.auth.decorators import login_required
+from django.dispatch import receiver
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
@@ -7,6 +11,38 @@ from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
 from .models import Question, Choice, Vote
+from .setting import LOGGING
+
+logging.config.dictConfig(LOGGING)
+logger = logging.getLogger('polls')
+
+
+def get_client_ip(request):
+    """Return client ip address."""
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
+@receiver(user_logged_in)
+def user_logged_in_callback(sender, request, user, **kwargs):
+    """Log the username and ip address when user logged in."""
+    logger.info(f'User {user.username} logged in from {get_client_ip(request)}')
+
+
+@receiver(user_logged_out)
+def user_logged_out_callback(sender, request, user, **kwargs):
+    """Log the username and ip address when user logged out."""
+    logger.info(f'User {user.username} logged out from {get_client_ip(request)}')
+
+
+@receiver(user_login_failed)
+def user_login_failed_callback(sender, credentials, request, **kwargs):
+    """Log the username and ip address when user login failed."""
+    logger.warning(f'User {request.POST["username"]} login failed from {get_client_ip(request)}')
 
 
 class IndexView(generic.ListView):
@@ -61,5 +97,7 @@ def vote(request, question_id):
         else:
             question.vote_set.create(choice=selected_choice, user=request.user)
             messages.success(request, "Your choice successfully recorded.")
+        request.session['choice'] = selected_choice.id
+        logger.info(f'User {request.user.username} voted on polls id: {question.id}')
         url = reverse('polls:results', args=(question.id,))
         return HttpResponseRedirect(url)
